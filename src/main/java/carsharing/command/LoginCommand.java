@@ -1,4 +1,10 @@
-package carsharing;
+package carsharing.command;
+
+import carsharing.ConsoleHandler;
+import carsharing.Table;
+import carsharing.menu.Menu;
+import carsharing.menu.MenuItem;
+import carsharing.Operation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,5 +21,10 @@ public class LoginCommand implements Command {
             operation = ConsoleHandler.askOperation(menu);
             CommandExecutor.execute(operation);
         } while (operation != Operation.EXIT);
+    }
+
+    @Override
+    public void setT(Table table) {
+
     }
 }

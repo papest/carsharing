@@ -1,6 +1,4 @@
-package carsharing;
-
-import java.util.function.Supplier;
+package carsharing.menu;
 
 public class MenuItemNotExist extends RuntimeException{
     public MenuItemNotExist(int itemNumber) {

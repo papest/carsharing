@@ -1,11 +1,7 @@
 package carsharing;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
 
 
 public class DBService {
@@ -59,10 +55,15 @@ public class DBService {
 
 
             stmt = conn.createStatement();
-            String sql = "CREATE TABLE COMPANY (id INT PRIMARY KEY AUTO_INCREMENT, " +
+            String sql = "CREATE TABLE IF NOT EXISTS COMPANY (ID INT PRIMARY KEY AUTO_INCREMENT, " +
                     "name VARCHAR(20) UNIQUE NOT NULL)";
             stmt.executeUpdate(sql);
-            //conn.close();
+            sql = "CREATE TABLE IF NOT EXISTS CAR (ID INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "name VARCHAR(20) UNIQUE NOT NULL, " +
+                    "COMPANY_ID INT NOT NULL, " +
+                    "FOREIGN KEY (COMPANY_ID) REFERENCES COMPANY(ID))";
+            stmt.executeUpdate(sql);
+
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
 

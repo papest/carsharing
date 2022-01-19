@@ -1,4 +1,6 @@
-package carsharing;
+package carsharing.menu;
+
+import carsharing.Operation;
 
 public class MenuItem {
     private Operation operation;

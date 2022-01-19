@@ -1,5 +1,7 @@
-package carsharing;
+package carsharing.dao;
 
+
+import carsharing.Company;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,12 +30,22 @@ public class CompanyDaoImpl implements CompanyDao {
     @Override
     public void createCompany(String company) {
         try {
-
-            statement.executeUpdate("INSERT into COMPANY (name) VALUES('" + company + "')");
-
+            checkTableCompany();
+            statement.executeUpdate("INSERT INTO COMPANY (name) VALUES('" + company + "')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void checkTableCompany() throws SQLException {
+
+
+        ResultSet  resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM COMPANY");
+        resultSet.next();
+        if (resultSet.getInt("COUNT") == 0) {
+            statement.executeUpdate("ALTER TABLE COMPANY ALTER COLUMN ID RESTART WITH 1");
+        }
+
     }
 
     @Override
@@ -41,10 +53,10 @@ public class CompanyDaoImpl implements CompanyDao {
         List<Company> result = new ArrayList<>();
 
         try {
-            resultSet = statement.executeQuery("SELECT * FROM COMPANY");
+            resultSet = statement.executeQuery("SELECT ID, name FROM COMPANY ORDER BY ID");
 
             while (resultSet.next()) {
-                result.add(new Company(resultSet.getInt("id"), resultSet.getString("name")));
+                result.add(new Company(resultSet.getInt("ID"), resultSet.getString("name")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
