@@ -1,24 +1,17 @@
 package carsharing;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
-
-
-    static DBService dbService;
-
-    public static void main(String[] args) {
-
-        dbService = new DBService(args);
+public class LoginCommand implements Command {
+    @Override
+    public void execute() {
         Operation operation;
         do {
-
-            Menu menu = new Menu(new ArrayList<>(List.of(new MenuItem(Operation.LOGIN, 1),
+            Menu menu = new Menu(new ArrayList<>(List.of(new MenuItem(Operation.COMPANY_LIST, 1),
+                    new MenuItem(Operation.COMPANY_CREATE, 2),
                     new MenuItem(Operation.EXIT, 0))),
-                    "login");
+                    "company");
             operation = ConsoleHandler.askOperation(menu);
             CommandExecutor.execute(operation);
         } while (operation != Operation.EXIT);
