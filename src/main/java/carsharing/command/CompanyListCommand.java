@@ -3,7 +3,6 @@ package carsharing.command;
 import carsharing.*;
 import carsharing.dao.CompanyDao;
 import carsharing.dao.CompanyDaoImpl;
-import carsharing.menu.Menu;
 import carsharing.menu.MenuItem;
 import carsharing.menu.MenuList;
 
@@ -14,6 +13,8 @@ import java.util.List;
 import static carsharing.Main.dbService;
 
 public class CompanyListCommand implements Command {
+    Customer customer = null;
+
     @Override
     public void execute() {
 
@@ -27,7 +28,7 @@ public class CompanyListCommand implements Command {
             Object object;
             Table table = null;
             do {
-                MenuList<Company> menuList = new MenuList<>(new ArrayList<>(companies), Operation.CAR_LIST,
+                MenuList<Company> menuList = new MenuList<>(new ArrayList<>(companies),
                         new ArrayList<>(List.of(new MenuItem(Operation.EXIT, 0))), "exit");
                 object = ConsoleHandler.askObjectOfMenuList(menuList);
 
@@ -35,7 +36,14 @@ public class CompanyListCommand implements Command {
                     operation = (Operation) object;
                     CommandExecutor.execute(operation);
                 } else {
-                    CarMenu((Company) object);
+                    if (customer == null) {
+                        operation = Operation.CAR_MENU;
+                        CommandExecutor.execute(operation, (Company) object);
+
+                    } else {
+                        operation = Operation.CAR_LIST;
+                        CommandExecutor.execute(operation, (Company) object, customer);
+                    }
                     operation = Operation.EXIT;
                 }
 
@@ -49,26 +57,11 @@ public class CompanyListCommand implements Command {
 
     }
 
-    private void CarMenu(Company company) {
-        Operation operation;
-        do {
-
-            ConsoleHandler.write("'" + company.getName() + "' company");
-            Menu menu = new Menu(new ArrayList<>(List.of(new MenuItem(Operation.CAR_LIST, 1),
-                    new MenuItem(Operation.CAR_CREATE, 2), new MenuItem(Operation.EXIT, 0))),
-                    "car");
-            operation = ConsoleHandler.askOperation(menu);
-            if (operation != Operation.EXIT) {
-                CommandExecutor.execute(operation, company);
-            } else {
-                CommandExecutor.execute(operation);
-            }
-        }
-        while (operation != Operation.EXIT);
-    }
 
     @Override
-    public void setT(Table table) {
-
+    public void setT(Table... table) {
+        if (table != null && table.length != 0) {
+            customer = (Customer) table[0];
+        }
     }
 }

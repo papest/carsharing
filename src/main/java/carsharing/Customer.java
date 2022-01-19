@@ -1,18 +1,17 @@
 package carsharing;
 
-public class Car implements Table{
-
-    private int id;
-    private String name;
-
-    public Car(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+public class Customer implements Table{
+    int id;
+    String name;
 
     @Override
     public int getId() {
         return id;
+    }
+
+    public Customer(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     @Override
@@ -21,6 +20,7 @@ public class Car implements Table{
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 

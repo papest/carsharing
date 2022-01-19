@@ -2,7 +2,7 @@ package carsharing.command;
 
 import carsharing.Table;
 
-interface Command<T extends Table> {
+interface Command {
     void execute();
-    void setT(T t);
+    void setT(Table ... t);
 }

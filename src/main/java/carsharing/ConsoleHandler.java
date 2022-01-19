@@ -38,31 +38,18 @@ public class ConsoleHandler {
         System.out.print(allText);
     }
 
-//    public static Operation askOperationCarList(Menu carsharing.menu) {
-//        write("\n" + carsharing.menu.getAllText() + "\n");
-//        int itemNumber;
-//        while (true) {
-//            try {
-//                itemNumber = Integer.parseInt(readString());
-//                return carsharing.menu.getOperationByItemNumber(itemNumber);
-//            } catch (NumberFormatException e) {
-//            }
-//
-//        }
-//    }
+    public static <T extends Table> Object askObjectOfMenuList(MenuList<T> menuList) {
+        write(menuList.getAllText() + "\n");
+        int number;
+        while (true) {
+            try {
+                number = Integer.parseInt(readString());
+                return menuList.getObject(number);
+            } catch (NumberFormatException e) {
+            }
 
-     public static<T extends Table> Object askObjectOfMenuList(MenuList<T> menuList) {
-         write(menuList.getAllText() + "\n");
-         int number;
-         while (true) {
-             try {
-                 number = Integer.parseInt(readString());
-                 return menuList.getObject(number);
-             } catch (NumberFormatException e) {
-             }
-
-         }
-     }
+        }
+    }
 
 
 }

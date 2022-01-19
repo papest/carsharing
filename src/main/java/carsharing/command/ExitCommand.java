@@ -9,7 +9,7 @@ public class ExitCommand implements Command {
     }
 
     @Override
-    public void setT(Table table) {
+    public void setT(Table ... table) {
 
     }
 }

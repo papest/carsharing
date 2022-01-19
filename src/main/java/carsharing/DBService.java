@@ -63,9 +63,14 @@ public class DBService {
                     "COMPANY_ID INT NOT NULL, " +
                     "FOREIGN KEY (COMPANY_ID) REFERENCES COMPANY(ID))";
             stmt.executeUpdate(sql);
+            sql = "CREATE TABLE IF NOT EXISTS CUSTOMER (ID INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "name VARCHAR(20) UNIQUE NOT NULL," +
+                    "RENTED_CAR_ID INT DEFAULT NULL," +
+                    "FOREIGN KEY (RENTED_CAR_ID) REFERENCES CAR(ID))";
+            stmt.executeUpdate(sql);
 
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException | ClassNotFoundException throwable) {
+            throwable.printStackTrace();
 
         }
         return conn;

@@ -67,7 +67,15 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public Company getCompany(Company company) {
+    public Company getCompany(int companyId) {
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM COMPANY WHERE ID = " + companyId);
+
+        resultSet.next();
+        return new Company(resultSet.getInt("ID"), resultSet.getString("name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

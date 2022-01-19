@@ -8,7 +8,7 @@ import carsharing.dao.CarDaoImpl;
 
 import static carsharing.Main.dbService;
 
-public class CarCreateCommand implements Command<Company> {
+public class CarCreateCommand implements Command {
     Company company;
 
     public CarCreateCommand(){
@@ -24,8 +24,8 @@ public class CarCreateCommand implements Command<Company> {
     }
 
     @Override
-    public void setT(Company company) {
-        this.company = company;
+    public void setT(Table ... company) {
+        this.company = (Company) company[0];
     }
 
 

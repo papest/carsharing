@@ -53,7 +53,7 @@ public class CarDaoImpl implements CarDao {
 
         try {
             resultSet = statement.executeQuery("SELECT ID, name FROM CAR where COMPANY_ID = " + companyId +
-                    " ORDER BY id");
+                    " ORDER BY ID");
 
             while (resultSet.next()) {
                 result.add(new Car(resultSet.getInt("ID"), resultSet.getString("name")));
@@ -71,4 +71,52 @@ public class CarDaoImpl implements CarDao {
     public void deleteCar() {
 
     }
+
+    @Override
+    public Car getCar(Integer rentedCarId) {
+        try {
+            resultSet = statement.executeQuery("SELECT name from CAR WHERE ID = " + rentedCarId);
+            if (resultSet.next()) {
+                return new Car(rentedCarId, resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer getCompanyId(int carId) {
+        try {
+            resultSet = statement.executeQuery("SELECT COMPANY_ID FROM CAR WHERE ID = " + carId);
+
+            resultSet.next();
+            return resultSet.getInt("COMPANY_ID");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Car> getFreeCarsOfCompany(Company company) {
+        List<Car> result = new ArrayList<>();
+        int companyId = company.getId();
+
+        try {
+            resultSet = statement.executeQuery("SELECT ID, name FROM CAR WHERE COMPANY_ID = " + companyId +
+                    " AND ID NOT IN (SELECT RENTED_CAR_ID FROM CUSTOMER WHERE RENTED_CAR_ID IS NOT NULL )" +
+                    " ORDER BY ID");
+
+            while (resultSet.next()) {
+                result.add(new Car(resultSet.getInt("ID"), resultSet.getString("name")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
+
 }
